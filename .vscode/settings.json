@@ -1,0 +1,8 @@
+{
+  "editor.formatOnSave": true,
+  "java.format.enabled": true,
+  "java.format.comments.enabled": true,
+  "java.format.onType.enabled": true,
+  "java.format.settings.profile": "Eclipse",
+  "java.format.settings.url": "./eclipse-formatter.xml"
+}
