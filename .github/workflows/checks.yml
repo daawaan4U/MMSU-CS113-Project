@@ -1,0 +1,30 @@
+name: Check
+on: [pull_request]
+
+jobs:
+  compiler:
+    name: "Java Compiler"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/setup
+      - name: "Run Java Compiler"
+        run: "mvn compile"
+
+  formatter:
+    name: "Eclipse Formatter"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/setup
+      - name: "Run Eclipse Formatter"
+        run: "mvn formatter:validate"
+
+  assembler:
+    name: "JAR Assembler"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/setup
+      - name: "Run JAR Assembler"
+        run: "mvn package"
