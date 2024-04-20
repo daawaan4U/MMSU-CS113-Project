@@ -2,8 +2,6 @@ package edu.project.components;
 
 import java.awt.Dimension;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import org.jxmapviewer.JXMapKit;
@@ -11,8 +9,6 @@ import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
-
-import com.formdev.flatlaf.FlatLightLaf;
 
 import edu.project.Config;
 
