@@ -9,9 +9,6 @@ public class App extends JFrame {
 		setTitle("Weather Forecast App");
 		setSize(Config.WINDOW_INIT_WIDTH, Config.WINDOW_INIT_HEIGHT);
 
-		GeoMap geomap = new GeoMap();
-		add(geomap);
-
-		geomap.setup();
+		add(new GeoMap());
 	}
 }

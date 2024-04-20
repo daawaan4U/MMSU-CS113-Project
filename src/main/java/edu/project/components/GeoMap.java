@@ -1,33 +1,34 @@
 package edu.project.components;
 
-import javax.swing.event.MouseInputListener;
+import java.awt.Dimension;
 
+import javax.swing.border.EmptyBorder;
+
+import org.jxmapviewer.JXMapKit;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
-import org.jxmapviewer.input.PanMouseInputListener;
-import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import edu.project.Config;
 
-public class GeoMap extends JXMapViewer {
+public class GeoMap extends JXMapKit {
 
 	public GeoMap() {
-		// Enable panning interaction using mouse movements
-		MouseInputListener panMouse = new PanMouseInputListener(this);
-		addMouseListener(panMouse);
-		addMouseMotionListener(panMouse);
 
-		// Enable zooming interaction using the mouse wheel
-		ZoomMouseWheelListenerCursor zoomWheel = new ZoomMouseWheelListenerCursor(this);
-		addMouseWheelListener(zoomWheel);
-	}
+		// Use OpenStreetMap tileset with 8 thread-count for fetching
+		setDefaultProvider(DefaultProviders.OpenStreetMaps);
+		DefaultTileFactory tileFactory = new DefaultTileFactory(new OSMTileFactoryInfo());
+		tileFactory.setThreadPoolSize(8);
+		setTileFactory(tileFactory);
 
-	public void setup() {
-		setTileFactory(
-				new DefaultTileFactory(
-						new OSMTileFactoryInfo("", "https://b.tile.openstreetmap.fr/hot/")));
+		JXMapViewer mainMap = getMainMap();
+		mainMap.setBorder(new EmptyBorder(10, 10, 10, 10)); // Add 10px inner-padding
+		mainMap.setOverlayPainter(null); // Remove attribution painter set by JXMapKit
+
+		JXMapViewer miniMap = getMiniMap();
+		miniMap.setMinimumSize(new Dimension(150, 150)); // Resize to 150px
+		miniMap.setPreferredSize(new Dimension(150, 150));
 
 		reset();
 	}
