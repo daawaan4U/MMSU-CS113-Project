@@ -12,4 +12,7 @@ public class Config {
 	public static final double MAP_INIT_LAT = 18.057784;
 	public static final double MAP_INIT_LON = 120.548036;
 	public static final int MAP_INIT_ZOOM = 4;
+
+	/* Number of threads for fetching tiles */
+	public static final int MAP_THREAD_COUNT = 8;
 }

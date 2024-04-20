@@ -2,6 +2,8 @@ package edu.project.components;
 
 import java.awt.Dimension;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import org.jxmapviewer.JXMapKit;
@@ -10,16 +12,16 @@ import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import edu.project.Config;
 
 public class GeoMap extends JXMapKit {
-
 	public GeoMap() {
-
-		// Use OpenStreetMap tileset with 8 thread-count for fetching
+		// Use OpenStreetMap tileset with custom thread-pool size for fetching
 		setDefaultProvider(DefaultProviders.OpenStreetMaps);
 		DefaultTileFactory tileFactory = new DefaultTileFactory(new OSMTileFactoryInfo());
-		tileFactory.setThreadPoolSize(8);
+		tileFactory.setThreadPoolSize(Config.MAP_THREAD_COUNT);
 		setTileFactory(tileFactory);
 
 		JXMapViewer mainMap = getMainMap();
