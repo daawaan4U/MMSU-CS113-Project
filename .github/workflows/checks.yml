@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/setup
       - name: "Run Java Compiler"
-        run: "mvn compile"
+        run: "mvn -B -U compile"
 
   formatter:
     name: "Eclipse Formatter"
@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/setup
       - name: "Run Eclipse Formatter"
-        run: "mvn formatter:validate"
+        run: "mvn -B -U formatter:validate"
 
   assembler:
     name: "JAR Assembler"
@@ -27,4 +27,4 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/setup
       - name: "Run JAR Assembler"
-        run: "mvn package"
+        run: "mvn -B -U package"
