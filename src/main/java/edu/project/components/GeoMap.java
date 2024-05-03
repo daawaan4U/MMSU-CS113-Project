@@ -23,9 +23,6 @@ import edu.project.Config;
 import edu.project.tilesets.HybridTileFactory;
 
 public class GeoMap extends JXMapKit {
-
-	private WaypointPainter<DefaultWaypoint> waypointPainter = new WaypointPainter<DefaultWaypoint>();
-
 	public GeoMap() {
 		setDefaultProvider(DefaultProviders.Custom);
 		setTileFactory(new HybridTileFactory());
@@ -43,6 +40,19 @@ public class GeoMap extends JXMapKit {
 		miniMap.setMinimumSize(new Dimension(150, 150)); // Resize to 150px
 		miniMap.setPreferredSize(new Dimension(150, 150));
 
+		// Configure overlay marker
+		WaypointPainter<DefaultWaypoint> waypointPainter = new WaypointPainter<DefaultWaypoint>();
+		HashSet<DefaultWaypoint> waypoints = new HashSet<DefaultWaypoint>();
+		waypoints.add(waypoint);
+		waypointPainter.setWaypoints(waypoints);
+
+		try {
+			waypointPainter.setRenderer(new GeoMapMarker());
+		} catch (Exception exception) {
+			exception.printStackTrace(System.err);
+		}
+
+		// Display overlay marker and listen to click events
 		mainMap.setOverlayPainter(waypointPainter);
 		mainMap.addMouseListener(new MouseAdapter() {
 			@Override
@@ -66,14 +76,13 @@ public class GeoMap extends JXMapKit {
 		setZoom(Config.MAP_INIT_ZOOM);
 	}
 
+	private DefaultWaypoint waypoint = new DefaultWaypoint();
+
 	/**
 	 * Sets the marker location to the passed geolocation {@code position}
 	 */
 	public void setMarkedLocation(GeoPosition position) {
-		DefaultWaypoint waypoint = new DefaultWaypoint(position);
-		HashSet<DefaultWaypoint> waypoints = new HashSet<>();
-		waypoints.add(waypoint);
-		waypointPainter.setWaypoints(waypoints);
+		waypoint.setPosition(position);
 		getMainMap().repaint();
 
 		for (Consumer<GeoPosition> listener : markedLocationListeners) {
