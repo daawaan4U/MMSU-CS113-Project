@@ -21,7 +21,7 @@ import edu.project.Store;
 import edu.project.tilesets.HybridTileFactory;
 
 public class GeoMap extends JXMapKit {
-	public GeoMap(Store state) {
+	public GeoMap(Store store) {
 		setDefaultProvider(DefaultProviders.Custom);
 		setTileFactory(new HybridTileFactory());
 
@@ -59,17 +59,17 @@ public class GeoMap extends JXMapKit {
 			public void mouseClicked(MouseEvent event) {
 				Point point = event.getPoint();
 				GeoPosition position = mainMap.convertPointToGeoPosition(point);
-				state.setLocation(position);
+				store.setLocation(position);
 			}
 		});
 
 		// Update waypoint on location change events from application state
-		state.addLocationListener(position -> {
+		store.addLocationListener(position -> {
 			waypoint.setPosition(position);
 			getMainMap().repaint();
 		});
 
-		setCenterPosition(state.getLocation());
+		setCenterPosition(store.getLocation());
 		setZoom(Config.MAP_INIT_ZOOM);
 	}
 }

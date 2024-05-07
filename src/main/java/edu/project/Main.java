@@ -11,8 +11,8 @@ public class Main {
 		SwingUtilities.invokeLater(() -> {
 			FlatMacLightLaf.setup();
 
-			Store state = new Store();
-			App app = new App(state);
+			Store store = new Store();
+			App app = new App(store);
 			app.setVisible(true);
 		});
 	}
