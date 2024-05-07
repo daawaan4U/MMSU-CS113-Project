@@ -1,6 +1,7 @@
 package edu.project;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import javax.swing.SwingUtilities;
@@ -20,18 +21,17 @@ public class Store {
 
 	/* Location */
 
-	private GeoPosition location;
+	private GeoPosition location = new GeoPosition(0, 0);
 
 	public GeoPosition getLocation() {
 		return location;
 	}
 
 	public void setLocation(GeoPosition position) {
-		if (position == location || position.equals(location))
+		if (Objects.equals(location, position))
 			return;
 
 		location = position;
-
 		SwingUtilities.invokeLater(() -> {
 			locationListeners.forEach(listener -> listener.accept(position));
 		});
