@@ -17,11 +17,11 @@ import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.WaypointPainter;
 
 import edu.project.Config;
-import edu.project.Store;
+import edu.project.Context;
 import edu.project.tilesets.HybridTileFactory;
 
 public class GeoMap extends JXMapKit {
-	public GeoMap(Store store) {
+	public GeoMap(Context context) {
 		setDefaultProvider(DefaultProviders.Custom);
 		setTileFactory(new HybridTileFactory());
 
@@ -59,17 +59,17 @@ public class GeoMap extends JXMapKit {
 			public void mouseClicked(MouseEvent event) {
 				Point point = event.getPoint();
 				GeoPosition position = mainMap.convertPointToGeoPosition(point);
-				store.setLocation(position);
+				context.store.setLocation(position);
 			}
 		});
 
 		// Update waypoint on location change events from application state
-		store.addLocationListener(position -> {
+		context.store.addLocationListener(position -> {
 			waypoint.setPosition(position);
 			getMainMap().repaint();
 		});
 
-		setCenterPosition(store.getLocation());
+		setCenterPosition(context.store.getLocation());
 		setZoom(Config.MAP_INIT_ZOOM);
 	}
 }
