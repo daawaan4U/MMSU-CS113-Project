@@ -20,22 +20,25 @@ import edu.project.Config;
 import edu.project.Context;
 import edu.project.tilesets.HybridTileFactory;
 
-public class GeoMap extends JXMapKit {
-	public GeoMap(Context context) {
+public class GeoMap extends JXMapKit 
+{
+	public GeoMap(Context context) 
+    {
 		setDefaultProvider(DefaultProviders.Custom);
 		setTileFactory(new HybridTileFactory());
 
 		JXMapViewer mainMap = getMainMap();
-		mainMap.setBorder(new EmptyBorder(10, 10, 10, 10)); // Add 10px inner-padding
-		mainMap.setOverlayPainter(null); // Remove attribution painter set by JXMapKit
-		for (MouseListener listener : mainMap.getMouseListeners()) {
-			// Remove zoom-by-clicking feature set by JXMapKit
+		mainMap.setBorder(new EmptyBorder(10, 10, 10, 10)); 
+		mainMap.setOverlayPainter(null); 
+		for (MouseListener listener : mainMap.getMouseListeners()) 
+        {
+			
 			if (listener instanceof CenterMapListener)
 				mainMap.removeMouseListener(listener);
 		}
 
 		JXMapViewer miniMap = getMiniMap();
-		miniMap.setMinimumSize(new Dimension(150, 150)); // Resize to 150px
+		miniMap.setMinimumSize(new Dimension(150, 150)); 
 		miniMap.setPreferredSize(new Dimension(150, 150));
 
 		// Configure overlay marker
@@ -44,27 +47,32 @@ public class GeoMap extends JXMapKit {
 		DefaultWaypoint waypoint = new DefaultWaypoint();
 		waypoints.add(waypoint);
 		waypointPainter.setWaypoints(waypoints);
-		try {
+		try 
+        {
 			waypointPainter.setRenderer(new GeoMapMarker());
-		} catch (Exception exception) {
+		} catch (Exception exception) 
+        {
 			exception.printStackTrace(System.err);
 		}
 
-		// Display overlay marker
+		
 		mainMap.setOverlayPainter(waypointPainter);
 
-		// Update location from application state on map click events
-		mainMap.addMouseListener(new MouseAdapter() {
+		
+		mainMap.addMouseListener(new MouseAdapter() 
+        {
 			@Override
-			public void mouseClicked(MouseEvent event) {
+			public void mouseClicked(MouseEvent event) 
+            {
 				Point point = event.getPoint();
 				GeoPosition position = mainMap.convertPointToGeoPosition(point);
 				context.store.setLocation(position);
 			}
 		});
 
-		// Update waypoint on location change events from application state
-		context.store.addLocationListener(position -> {
+		
+		context.store.addLocationListener(position -> 
+        {
 			waypoint.setPosition(position);
 			getMainMap().repaint();
 		});
