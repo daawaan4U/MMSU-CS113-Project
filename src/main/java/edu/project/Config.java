@@ -5,8 +5,9 @@ package edu.project;
  * location
  */
 public class Config {
-	public static final int WINDOW_INIT_WIDTH = 800;
-	public static final int WINDOW_INIT_HEIGHT = 600;
+	public static final int WINDOW_INIT_WIDTH = 960;
+	public static final int WINDOW_INIT_HEIGHT = 640;
+	public static final int WINDOW_INIT_PADDING = 16;
 
 	/* MMSU Batac Campus Coordinates */
 	public static final double MAP_INIT_LAT = 18.057784;
