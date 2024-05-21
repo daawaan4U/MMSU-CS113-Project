@@ -19,6 +19,8 @@ public class App extends JFrame {
 		getContentPane().setMinimumSize(new Dimension(Config.WINDOW_INIT_WIDTH, Config.WINDOW_INIT_HEIGHT));
 		getContentPane().setPreferredSize(new Dimension(Config.WINDOW_INIT_WIDTH, Config.WINDOW_INIT_HEIGHT));
 		pack();
+		setMinimumSize(getSize());
+		setPreferredSize(getSize());
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
