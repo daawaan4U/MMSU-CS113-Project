@@ -6,6 +6,7 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.WindowConstants;
 
 import edu.project.Config;
 import edu.project.Context;
@@ -16,6 +17,8 @@ public class App extends JFrame {
 		getContentPane().setMinimumSize(new Dimension(Config.WINDOW_INIT_WIDTH, Config.WINDOW_INIT_HEIGHT));
 		getContentPane().setPreferredSize(new Dimension(Config.WINDOW_INIT_WIDTH, Config.WINDOW_INIT_HEIGHT));
 		pack();
+
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		JLayeredPane layers = new JLayeredPane();
 		add(layers);
