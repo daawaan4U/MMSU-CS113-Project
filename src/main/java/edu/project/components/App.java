@@ -3,6 +3,8 @@ package edu.project.components;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
@@ -35,6 +37,15 @@ public class App extends JFrame {
 		});
 
 		WeatherIsland weatherIsland = new WeatherIsland(context);
+
+		// Disable click-throughs to the overlapped map
+		weatherIsland.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				e.consume();
+			}
+		});
+
 		layers.add(weatherIsland);
 		layers.setLayer(weatherIsland, JLayeredPane.MODAL_LAYER);
 		weatherIsland.setBounds(
