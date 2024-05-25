@@ -12,3 +12,12 @@ To start developing with this project, the following must be installed:
 Update your system environment variables (1) `JAVA_HOME` to the **JDK 8** folderpath and (2) `Path` to include the folderpath for the **Maven** binaries.
 
 Afterwards, run `mvn package` to install all dependencies, compile the source, and build the executable `.jar` file of this project.
+
+## Contributors
+
+In alphabetical order:
+
+- [Cecilia Invencion](https://github.com/Cesshi)
+- [Geila Rigayen](https://github.com/geilala)
+- [Lois Concepcion](https://github.com/LoisDub)
+- [Theone Eclarin](https://github.com/daawaan4U)
