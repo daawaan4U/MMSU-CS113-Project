@@ -3,13 +3,12 @@ package edu.project.components;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
 import edu.project.Context;
+import java.awt.BorderLayout;
 
 public class WeatherIsland extends JPanel {
 	public WeatherIsland(Context context) {
@@ -17,8 +16,10 @@ public class WeatherIsland extends JPanel {
 				"background: tint(@background,50%); border: 16,16,16,16,shade(@background,10%),,16");
 		setOpaque(false);
 
-		JLabel label = new JLabel("Hello World!");
-		add(label);
+		setLayout(new BorderLayout());
+
+		WeatherInfo weatherInfo = new WeatherInfo(context);
+		add(weatherInfo, BorderLayout.CENTER);
 	}
 
 	@Override
