@@ -22,7 +22,7 @@ public class Main {
 						"Weather Forecast", JOptionPane.ERROR_MESSAGE);
 				return; // Exit the application if there's no internet connection
 			}
-      
+
 			Context context = new Context();
 			App app = new App(context);
 			app.setVisible(true);
