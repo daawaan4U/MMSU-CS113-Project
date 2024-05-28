@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelListener;
-
+import java.io.IOException;
 import java.util.HashSet;
 
 import javax.swing.event.MouseInputListener;
