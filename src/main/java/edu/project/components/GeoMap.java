@@ -1,17 +1,17 @@
 package edu.project.components;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.util.HashSet;
-import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseWheelListener;
 
-import org.jxmapviewer.JXMapKit;
+import java.util.HashSet;
+
+import javax.swing.event.MouseInputListener;
+
 import org.jxmapviewer.JXMapViewer;
-import org.jxmapviewer.input.CenterMapListener;
+import org.jxmapviewer.input.PanMouseInputListener;
+import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.WaypointPainter;
@@ -20,25 +20,18 @@ import edu.project.Config;
 import edu.project.Context;
 import edu.project.tilesets.HybridTileFactory;
 
-public class GeoMap extends JXMapKit {
-
+public class GeoMap extends JXMapViewer {
 	public GeoMap(Context context) {
-		setDefaultProvider(DefaultProviders.Custom);
 		setTileFactory(new HybridTileFactory());
 
-		JXMapViewer mainMap = getMainMap();
-		mainMap.setBorder(new EmptyBorder(10, 10, 10, 10));
-		mainMap.setOverlayPainter(null);
+		// Add Pan Interaction
+		MouseInputListener mouseInputListener = new PanMouseInputListener(this);
+		addMouseListener(mouseInputListener);
+		addMouseMotionListener(mouseInputListener);
 
-		for (MouseListener listener : mainMap.getMouseListeners()) {
-			if (listener instanceof CenterMapListener) {
-				mainMap.removeMouseListener(listener);
-			}
-		}
-
-		JXMapViewer miniMap = getMiniMap();
-		miniMap.setMinimumSize(new Dimension(150, 150));
-		miniMap.setPreferredSize(new Dimension(150, 150));
+		// Add Zoom Interaction
+		MouseWheelListener mouseWheelListener = new ZoomMouseWheelListenerCursor(this);
+		addMouseWheelListener(mouseWheelListener);
 
 		WaypointPainter<DefaultWaypoint> waypointPainter = new WaypointPainter<>();
 		HashSet<DefaultWaypoint> waypoints = new HashSet<>();
@@ -52,20 +45,22 @@ public class GeoMap extends JXMapKit {
 			e.printStackTrace();
 		}
 
-		mainMap.setOverlayPainter(waypointPainter);
+		// Display overlay marker
+		setOverlayPainter(waypointPainter);
 
-		mainMap.addMouseListener(new MouseAdapter() {
+		// Update location from application state on map click events
+		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				Point point = event.getPoint();
-				GeoPosition position = mainMap.convertPointToGeoPosition(point);
+				GeoPosition position = convertPointToGeoPosition(point);
 				context.store.setLocation(position);
 			}
 		});
 
 		context.store.addLocationListener(position -> {
 			waypoint.setPosition(position);
-			getMainMap().repaint();
+			repaint();
 		});
 
 		setCenterPosition(context.store.getLocation());

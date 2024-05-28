@@ -7,8 +7,9 @@ package edu.project;
 public class Config {
 	public static final String OPENWEATHERMAP_API_KEY = "23c541de6a2105ebf03f39791a6b7cd1";
 
-	public static final int WINDOW_INIT_WIDTH = 800;
-	public static final int WINDOW_INIT_HEIGHT = 600;
+	public static final int WINDOW_INIT_WIDTH = 960;
+	public static final int WINDOW_INIT_HEIGHT = 640;
+	public static final int WINDOW_INIT_PADDING = 16;
 
 	/* MMSU Batac Campus Coordinates */
 	public static final double MAP_INIT_LAT = 18.057784;
