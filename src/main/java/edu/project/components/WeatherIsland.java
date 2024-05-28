@@ -1,5 +1,6 @@
 package edu.project.components;
 
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -8,7 +9,6 @@ import javax.swing.JPanel;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import edu.project.Context;
-import java.awt.BorderLayout;
 
 public class WeatherIsland extends JPanel {
 	public WeatherIsland(Context context) {
@@ -16,11 +16,16 @@ public class WeatherIsland extends JPanel {
 				"background: tint(@background,50%); border: 16,16,16,16,shade(@background,10%),,16");
 		setOpaque(false);
 
-		setLayout(new BorderLayout());
+        // Adjust the FlowLayout properties to remove padding
+        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
-		WeatherInfo weatherInfo = new WeatherInfo(context);
-		add(weatherInfo, BorderLayout.CENTER);
-	}
+        WeatherInfo weatherInfo = new WeatherInfo(context);
+        add(weatherInfo);
+        WeatherForecastPanel weatherForecastPanel = new WeatherForecastPanel(context);
+        add(weatherForecastPanel);
+        TimeForecast timeForecast = new TimeForecast(context);
+        add(timeForecast);
+    }
 
 	@Override
 	protected void paintComponent(Graphics graphics) {
