@@ -5,6 +5,8 @@ package edu.project;
  * location
  */
 public class Config {
+	public static final String OPENWEATHERMAP_API_KEY = "23c541de6a2105ebf03f39791a6b7cd1";
+
 	public static final int WINDOW_INIT_WIDTH = 960;
 	public static final int WINDOW_INIT_HEIGHT = 640;
 	public static final int WINDOW_INIT_PADDING = 16;

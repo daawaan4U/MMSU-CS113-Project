@@ -2,10 +2,9 @@ package edu.project;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
 import edu.project.components.App;
+import edu.project.services.WeatherService;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -24,6 +23,8 @@ public class Main {
 			}
 
 			Context context = new Context();
+			new WeatherService(context);
+
 			App app = new App(context);
 			app.setVisible(true);
 		});
