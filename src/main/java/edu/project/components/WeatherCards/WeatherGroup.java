@@ -1,11 +1,12 @@
-package edu.project.components.WeatherCards;
+package edu.project.components.weathercards;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
 
 public class WeatherGroup extends JPanel {
 	public WeatherGroup() {
-		setLayout(new GridLayout());
+		setLayout(new GridLayout(1, 4, 8, 0));
 		add(new WeatherWindCard("16"));
 		add(new WeatherHumidityCard("50"));
 		add(new WeatherRainRateCard("0"));

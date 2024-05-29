@@ -1,4 +1,4 @@
-package edu.project.components.WeatherCards;
+package edu.project.components.weathercards;
 
 public class WeatherRainRateCard extends WeatherCard {
 	public WeatherRainRateCard(String value) {

@@ -1,4 +1,4 @@
-package edu.project.components.WeatherCards;
+package edu.project.components.weathercards;
 
 public class WeatherHumidityCard extends WeatherCard {
 	public WeatherHumidityCard(String value) {
