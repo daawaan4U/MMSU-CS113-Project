@@ -23,13 +23,16 @@ public class WeatherInfo extends JPanel {
 		dateLabel.setFont(new Font(dateLabel.getFont().getName(), Font.BOLD, 18));
 
 		JLabel skyLabel = new JLabel("Clear Sky");
+		Font font = skyLabel.getFont();
+		skyLabel.setFont(new Font(font.getName(), font.getStyle(), 14));
+
 		JLabel feelsLikeLabel = new JLabel("<html>Feels like <b>31°C</b></html>");
-		JLabel needLabel = new JLabel("Umbrella required");
+		Font feelsFont = feelsLikeLabel.getFont();
+		feelsLikeLabel.setFont(new Font(feelsFont.getName(), feelsFont.getStyle(), 14));
 
 		leftPanel.add(dateLabel);
 		leftPanel.add(skyLabel);
 		leftPanel.add(feelsLikeLabel);
-		leftPanel.add(needLabel);
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
