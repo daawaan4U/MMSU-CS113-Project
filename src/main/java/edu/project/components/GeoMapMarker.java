@@ -3,7 +3,6 @@ package edu.project.components;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import javax.imageio.ImageIO;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.DefaultWaypoint;
@@ -11,12 +10,16 @@ import org.jxmapviewer.viewer.WaypointRenderer;
 
 public class GeoMapMarker implements WaypointRenderer<DefaultWaypoint> {
 
-	private BufferedImage markerIconImage;
-	private BufferedImage markerShadowImage;
+	private static BufferedImage markerIconImage;
+	private static BufferedImage markerShadowImage;
 
-	public GeoMapMarker() throws IOException {
-		markerIconImage = ImageIO.read(getClass().getResource("/images/marker-icon.png"));
-		markerShadowImage = ImageIO.read(getClass().getResource("/images/marker-shadow.png"));
+	static {
+		try {
+			markerIconImage = ImageIO.read(GeoMapMarker.class.getResource("/images/marker-icon.png"));
+			markerShadowImage = ImageIO.read(GeoMapMarker.class.getResource("/images/marker-shadow.png"));
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 	}
 
 	@Override

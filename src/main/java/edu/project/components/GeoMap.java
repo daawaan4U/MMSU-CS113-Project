@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.io.IOException;
 import java.util.HashSet;
 
 import javax.swing.event.MouseInputListener;
@@ -63,12 +62,7 @@ public class GeoMap extends JXMapViewer {
 		DefaultWaypoint waypoint = new DefaultWaypoint();
 		waypoints.add(waypoint);
 		waypointPainter.setWaypoints(waypoints);
-
-		try {
-			waypointPainter.setRenderer(new GeoMapMarker());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		waypointPainter.setRenderer(new GeoMapMarker());
 
 		// Display overlay marker
 		setOverlayPainter(waypointPainter);
