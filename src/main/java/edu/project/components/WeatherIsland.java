@@ -52,7 +52,7 @@ public class WeatherIsland extends JPanel {
 		Graphics2D graphics2d = (Graphics2D) graphics;
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		graphics2d.setColor(getBackground());
-		graphics2d.fillRoundRect(0, 0, getWidth(), getHeight(), 16 * 2, 16 * 2);
+		graphics2d.fillRoundRect(0, 0, getWidth(), getHeight(), 16, 16);
 		super.paintComponent(graphics2d);
 	}
 }
