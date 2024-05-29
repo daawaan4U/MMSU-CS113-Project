@@ -3,7 +3,7 @@ package edu.project.components;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -29,9 +29,34 @@ public class GeoMap extends JXMapViewer {
 		addMouseListener(mouseInputListener);
 		addMouseMotionListener(mouseInputListener);
 
-		// Add Zoom Interaction
-		MouseWheelListener mouseWheelListener = new ZoomMouseWheelListenerCursor(this);
-		addMouseWheelListener(mouseWheelListener);
+		// Add Zoom Interaction with a zoom-out limiter
+		addMouseWheelListener(new ZoomMouseWheelListenerCursor(this) {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent evt) {
+				if (evt.getWheelRotation() > 0 && !canZoomOut())
+					return;
+				super.mouseWheelMoved(evt);
+			}
+		});
+
+		// Listen Zoom requests from store
+		context.store.addZoomInListener(() -> {
+			setZoom(getZoom() - 1);
+		});
+		context.store.addZoomOutListener(() -> {
+			if (!canZoomOut())
+				return;
+			setZoom(getZoom() + 1);
+		});
+
+		// Add Focus on click
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				requestFocus();
+				super.mouseClicked(e);
+			}
+		});
 
 		WaypointPainter<DefaultWaypoint> waypointPainter = new WaypointPainter<>();
 		HashSet<DefaultWaypoint> waypoints = new HashSet<>();
@@ -65,5 +90,12 @@ public class GeoMap extends JXMapViewer {
 
 		setCenterPosition(context.store.getLocation());
 		setZoom(Config.MAP_INIT_ZOOM);
+	}
+
+	private boolean canZoomOut() {
+		int zoom = getZoom();
+		int maxZoom = getTileFactory().getInfo().getMaximumZoomLevel();
+		int invertedZoom = maxZoom - zoom;
+		return (invertedZoom >= 4);
 	}
 }
