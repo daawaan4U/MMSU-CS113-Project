@@ -1,10 +1,12 @@
 package edu.project.components;
 
 import java.awt.Font;
+
 import java.text.SimpleDateFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import edu.project.Context;
 
@@ -16,6 +18,7 @@ public class WeatherInfo extends JPanel {
 	public WeatherInfo(Context context) {
 		setLayout(new BorderLayout());
 		setOpaque(false);
+		setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));

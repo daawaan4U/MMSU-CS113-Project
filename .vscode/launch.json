@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "WeatherIsland",
+      "request": "launch",
+      "mainClass": "edu.project.components.WeatherIsland",
+      "projectName": "weatherforecast"
+    },
+    {
+      "type": "java",
       "name": "Main",
       "request": "launch",
       "mainClass": "edu.project.Main",
