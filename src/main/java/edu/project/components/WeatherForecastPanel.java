@@ -16,12 +16,12 @@ public class WeatherForecastPanel extends JPanel {
     private static final Color PANEL_COLOR = new Color(211, 211, 211); // Light gray color
     private static final int ARC_WIDTH = 20; // Adjust the arc width for rounded corners
     private static final int ARC_HEIGHT = 20; // Adjust the arc height for rounded corners
-    private static final int SPACING = 0; // Vertical spacing between each temperature label
+    private static final int SPACING = 10; // Vertical spacing between each temperature label
 
     public WeatherForecastPanel(Context context) {
         setOpaque(false);
         context.store.addWeatherForecast5DataListener(this::updateForecast);
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, -30)); // Add padding around the panel
+        setBorder(BorderFactory.createEmptyBorder(10, 20, 10, -20)); // Add padding around the panel
 
         setLayout(new BorderLayout()); // Use BorderLayout for the main panel
 
@@ -29,7 +29,7 @@ public class WeatherForecastPanel extends JPanel {
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         titlePanel.setOpaque(false);
         JLabel titleLabel = new JLabel("5-Day Forecast");
-        titleLabel.setFont(new Font(titleLabel.getFont().getName(), Font.BOLD, 16));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         titlePanel.add(titleLabel);
         add(titlePanel, BorderLayout.NORTH);
     }
@@ -75,7 +75,7 @@ public class WeatherForecastPanel extends JPanel {
             float averageTemp = (sumTemp / 8) - 273.15f;  // Convert from Kelvin to Celsius and divide by 8
 
             JLabel tempLabel = new JLabel(String.format("%.1f°C", averageTemp));
-            tempLabel.setFont(new Font(tempLabel.getFont().getName(), Font.BOLD, 13)); // Adjust font size
+            tempLabel.setFont(new Font("Arial", Font.BOLD, 13)); // Adjust font size
             tempLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center align temperature label
             dayPanel.add(tempLabel);
 
