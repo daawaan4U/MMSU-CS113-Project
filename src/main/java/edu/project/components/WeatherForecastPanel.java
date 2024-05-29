@@ -6,6 +6,8 @@ import edu.project.api.WeatherForecast5Data;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import com.formdev.flatlaf.FlatClientProperties;
+
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
@@ -25,38 +27,38 @@ public class WeatherForecastPanel extends JPanel {
     private static final int SPACING = 10;
 
     public WeatherForecastPanel(Context context) {
-        setOpaque(false);
-        context.store.addWeatherForecast5DataListener(this::updateForecast);
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        putClientProperty(FlatClientProperties.STYLE,
+                "border: 12,12,12,12,shade(@background,10%),,16");
 
+        setOpaque(false);
         setLayout(new BorderLayout());
 
-        // Create the main panel
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setOpaque(false);
 
-        // Create and add the title panel with left alignment
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setOpaque(false);
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+
         JLabel titleLabel = new JLabel("5-Day Forecast");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titlePanel.add(titleLabel);
+        titlePanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Add the title panel to the main panel
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        separator.setForeground(new Color(0, 0, 0, 0.2f));
+        separator.setPreferredSize(new Dimension(separator.getPreferredSize().width, 2));
+        titlePanel.add(separator, BorderLayout.SOUTH);
+
         mainPanel.add(titlePanel, BorderLayout.NORTH);
 
-        // Create the content panel
         JPanel contentPanel = new JPanel();
         contentPanel.setOpaque(false);
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        contentPanel.setLayout(new GridLayout(1, 5, SPACING, 0)); // GridLayout with 1 row and 5 columns, and horizontal
-                                                                  // spacing
-
-        // Add the content panel to the main panel
+        contentPanel.setLayout(new GridLayout(1, 5, SPACING, 0));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
-        // Add the main panel to the WeatherForecastPanel
         add(mainPanel, BorderLayout.CENTER);
+
+        context.store.addWeatherForecast5DataListener(this::updateForecast);
     }
 
     private void updateForecast(WeatherForecast5Data forecastData) {

@@ -21,22 +21,22 @@ import java.util.Locale;
 
 public class TimeForecast extends JPanel {
 
-	private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h a")
-			.withLocale(Locale.ENGLISH); // Abbreviate the hour
-	private static final Color PANEL_COLOR = new Color(224, 224, 224); // Light gray color
-	private static final int ARC_WIDTH = 20; // Adjust the arc width for rounded corners
-	private static final int ARC_HEIGHT = 20; // Adjust the arc height for rounded corners
-	private static final int SPACING = 10; // Horizontal spacing between each hour panel
-	private static final int INTERVAL_HOURS = 3;
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h a")
+            .withLocale(Locale.ENGLISH); // Abbreviate the hour
+    private static final Color PANEL_COLOR = new Color(224, 224, 224); // Light gray color
+    private static final int ARC_WIDTH = 20; // Adjust the arc width for rounded corners
+    private static final int ARC_HEIGHT = 20; // Adjust the arc height for rounded corners
+    private static final int SPACING = 10; // Horizontal spacing between each hour panel
+    private static final int INTERVAL_HOURS = 3;
 
     private final JPanel contentPanel;
     private final List<HourForecast> hourForecasts = new ArrayList<>();
 
-	public TimeForecast(Context context) {
-		putClientProperty(FlatClientProperties.STYLE,
-				"border: 16,16,16,16,shade(@background,10%),,16");
-		setOpaque(false);
-		setLayout(new BorderLayout());
+    public TimeForecast(Context context) {
+        putClientProperty(FlatClientProperties.STYLE,
+                "border: 12,12,12,12,shade(@background,10%),,16");
+        setOpaque(false);
+        setLayout(new BorderLayout());
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setOpaque(false);
@@ -45,13 +45,15 @@ public class TimeForecast extends JPanel {
         titlePanel.setOpaque(false);
         titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-        JLabel titleLabel = new JLabel("5-Hour Forecast");
+        JLabel titleLabel = new JLabel("12-Hour Forecast");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         titlePanel.add(titleLabel, BorderLayout.NORTH);
 
         JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setForeground(Color.GRAY);
+        separator.setForeground(new Color(0, 0, 0, 0.2f));
+        separator.setPreferredSize(new Dimension(separator.getPreferredSize().width, 2));
         titlePanel.add(separator, BorderLayout.SOUTH);
+
         mainPanel.add(titlePanel, BorderLayout.NORTH);
 
         contentPanel = new JPanel();
