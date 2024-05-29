@@ -3,16 +3,25 @@ package edu.project.components;
 import edu.project.Context;
 import edu.project.api.WeatherForecast5Data;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -120,17 +129,7 @@ public class WeatherForecastPanel extends JPanel {
 	}
 
 	private JPanel createiconPanel(String iconId) {
-		// Base URL for weather icons
-		String iconUrl = "http://openweathermap.org/img/wn/" + iconId + "@2x.png";
-		BufferedImage image = null;
-
-		try {
-			URL url = new URL(iconUrl);
-			image = ImageIO.read(url);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		BufferedImage image = WeatherIcons.getIcon(iconId);
 		ImageIcon icon = new ImageIcon(image);
 
 		JPanel iconPanel = new JPanel() {
