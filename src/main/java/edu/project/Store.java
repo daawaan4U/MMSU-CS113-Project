@@ -85,4 +85,29 @@ public class Store {
 	public void addWeatherForecast5DataListener(Consumer<WeatherForecast5Data> listener) {
 		weatherForecast5DataListeners.add(listener);
 	}
+
+	/* Zoom */
+
+	public void zoomIn() {
+		SwingUtilities.invokeLater(() -> {
+			zoomInListeners.forEach(listener -> listener.run());
+		});
+	}
+
+	public void zoomOut() {
+		SwingUtilities.invokeLater(() -> {
+			zoomOutListeners.forEach(listener -> listener.run());
+		});
+	}
+
+	private ArrayList<Runnable> zoomInListeners = new ArrayList<>();
+	private ArrayList<Runnable> zoomOutListeners = new ArrayList<>();
+
+	public void addZoomInListener(Runnable listener) {
+		zoomInListeners.add(listener);
+	}
+
+	public void addZoomOutListener(Runnable listener) {
+		zoomOutListeners.add(listener);
+	}
 }

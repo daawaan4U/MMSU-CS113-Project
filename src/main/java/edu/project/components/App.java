@@ -55,5 +55,29 @@ public class App extends JFrame {
 				Config.WINDOW_INIT_PADDING,
 				(int) (Config.WINDOW_INIT_WIDTH * 0.4),
 				Config.WINDOW_INIT_HEIGHT - Config.WINDOW_INIT_PADDING * 2);
+
+		ZoomButtonGroup zoomButtonGroup = new ZoomButtonGroup(context);
+
+		// Disable click-throughts to the overlapped map
+		zoomButtonGroup.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				e.consume();
+			}
+		});
+
+		layers.add(zoomButtonGroup);
+		layers.setLayer(zoomButtonGroup, JLayeredPane.MODAL_LAYER + 1);
+		layers.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				super.componentResized(e);
+				zoomButtonGroup.setBounds(
+						layers.getWidth() - 50 - 16,
+						layers.getHeight() - 100 - 16,
+						50,
+						100);
+			}
+		});
 	}
 }

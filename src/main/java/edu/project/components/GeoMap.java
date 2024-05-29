@@ -33,12 +33,28 @@ public class GeoMap extends JXMapViewer {
 		addMouseWheelListener(new ZoomMouseWheelListenerCursor(this) {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent evt) {
-				int zoom = getZoom();
-				int maxZoom = getTileFactory().getInfo().getMaximumZoomLevel();
-				int invertedZoom = maxZoom - zoom;
-				if (invertedZoom < 4)
+				if (evt.getWheelRotation() > 0 && !canZoomOut())
 					return;
 				super.mouseWheelMoved(evt);
+			}
+		});
+
+		// Listen Zoom requests from store
+		context.store.addZoomInListener(() -> {
+			setZoom(getZoom() - 1);
+		});
+		context.store.addZoomOutListener(() -> {
+			if (!canZoomOut())
+				return;
+			setZoom(getZoom() + 1);
+		});
+
+		// Add Focus on click
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				requestFocus();
+				super.mouseClicked(e);
 			}
 		});
 
@@ -74,5 +90,12 @@ public class GeoMap extends JXMapViewer {
 
 		setCenterPosition(context.store.getLocation());
 		setZoom(Config.MAP_INIT_ZOOM);
+	}
+
+	private boolean canZoomOut() {
+		int zoom = getZoom();
+		int maxZoom = getTileFactory().getInfo().getMaximumZoomLevel();
+		int invertedZoom = maxZoom - zoom;
+		return (invertedZoom >= 4);
 	}
 }
