@@ -28,7 +28,7 @@ public class WeatherForecastPanel extends JPanel {
 
 	public WeatherForecastPanel(Context context) {
 		putClientProperty(FlatClientProperties.STYLE,
-				"border: 10,20,10,19,shade(@background,10%),,16");
+				"border: 16,16,16,16,shade(@background,10%),,16");
 
 		setOpaque(false);
 		setLayout(new BorderLayout());

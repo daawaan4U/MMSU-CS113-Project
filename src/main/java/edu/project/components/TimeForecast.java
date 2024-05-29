@@ -30,7 +30,7 @@ public class TimeForecast extends JPanel {
 
 	public TimeForecast(Context context) {
 		putClientProperty(FlatClientProperties.STYLE,
-				"border: 10,10,10,10,shade(@background,10%),,16");
+				"border: 16,16,16,16,shade(@background,10%),,16");
 		setOpaque(false);
 		setLayout(new BorderLayout());
 
