@@ -3,7 +3,7 @@ package edu.project.components;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
 import java.util.HashSet;
 
@@ -29,9 +29,18 @@ public class GeoMap extends JXMapViewer {
 		addMouseListener(mouseInputListener);
 		addMouseMotionListener(mouseInputListener);
 
-		// Add Zoom Interaction
-		MouseWheelListener mouseWheelListener = new ZoomMouseWheelListenerCursor(this);
-		addMouseWheelListener(mouseWheelListener);
+		// Add Zoom Interaction with a zoom-out limiter
+		addMouseWheelListener(new ZoomMouseWheelListenerCursor(this) {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent evt) {
+				int zoom = getZoom();
+				int maxZoom = getTileFactory().getInfo().getMaximumZoomLevel();
+				int invertedZoom = maxZoom - zoom;
+				if (invertedZoom < 4)
+					return;
+				super.mouseWheelMoved(evt);
+			}
+		});
 
 		WaypointPainter<DefaultWaypoint> waypointPainter = new WaypointPainter<>();
 		HashSet<DefaultWaypoint> waypoints = new HashSet<>();
