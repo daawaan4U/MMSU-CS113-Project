@@ -57,7 +57,7 @@ public class WeatherCard extends JPanel {
 	protected void paintComponent(Graphics graphics) {
 		Graphics2D graphics2d = (Graphics2D) graphics;
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		graphics2d.setColor(Color.LIGHT_GRAY);
+		graphics2d.setColor(new Color(224, 224, 224));
 		graphics2d.fillRoundRect(0, 0, getWidth(), getHeight(), 16, 16);
 		super.paintComponent(graphics);
 	}
