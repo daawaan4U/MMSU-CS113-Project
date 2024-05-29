@@ -8,92 +8,107 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class WeatherForecastPanel extends JPanel {
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEE").withLocale(Locale.ENGLISH); // Abbreviate the day names
-    private static final Color PANEL_COLOR = new Color(211, 211, 211); // Light gray color
-    private static final int ARC_WIDTH = 20; // Adjust the arc width for rounded corners
-    private static final int ARC_HEIGHT = 20; // Adjust the arc height for rounded corners
-    private static final int SPACING = 10; // Vertical spacing between each temperature label
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEE").withLocale(Locale.ENGLISH);
+    private static final Color PANEL_COLOR = new Color(169, 169, 169); // Light gray color
+    private static final int ARC_WIDTH = 20;
+    private static final int ARC_HEIGHT = 20;
+    private static final int SPACING = 20;
+
+    private final JPanel contentPanel;
+    private final List<DayForecast> dayForecasts = new ArrayList<>();
 
     public WeatherForecastPanel(Context context) {
         setOpaque(false);
-        context.store.addWeatherForecast5DataListener(this::updateForecast);
-        setBorder(BorderFactory.createEmptyBorder(10, 20, 10, -20)); // Add padding around the panel
+        setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 19));
+        setLayout(new BorderLayout());
 
-        setLayout(new BorderLayout()); // Use BorderLayout for the main panel
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setOpaque(false);
 
-        // Create and add the title panel with left alignment
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setOpaque(false);
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        
         JLabel titleLabel = new JLabel("5-Day Forecast");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titlePanel.add(titleLabel);
-        add(titlePanel, BorderLayout.NORTH);
+        titlePanel.add(titleLabel, BorderLayout.NORTH);
+
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        separator.setForeground(Color.BLACK);
+        titlePanel.add(separator, BorderLayout.SOUTH);
+
+        mainPanel.add(titlePanel, BorderLayout.NORTH);
+
+        contentPanel = new JPanel();
+        contentPanel.setOpaque(false);
+        contentPanel.setLayout(new GridLayout(1, 5, SPACING, 0));
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+
+        add(mainPanel, BorderLayout.CENTER);
+
+        context.store.addWeatherForecast5DataListener(this::updateForecastData);
     }
 
-    private void updateForecast(WeatherForecast5Data forecastData) {
-        // Create a panel to hold the forecast content
-        JPanel contentPanel = new JPanel();
-        contentPanel.setOpaque(false);
-        contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, SPACING)); // Set FlowLayout with center alignment and vertical spacing
+    private void updateForecastData(WeatherForecast5Data forecastData) {
+        dayForecasts.clear();
 
         List<WeatherForecast5Data.WeatherList> weatherList = forecastData.list;
-
-        // Ensure we process only up to the next 5 days
         int dayCount = Math.min(5, weatherList.size() / 8);
         LocalDate currentDate = LocalDate.now();
 
         for (int i = 0; i < dayCount; i++) {
             LocalDate forecastDate = currentDate.plusDays(i);
-
-            JPanel dayPanel = new JPanel(new GridLayout(3, 1)); // Create a panel to hold day, separator, and temperature
-            dayPanel.setOpaque(false); // Make it transparent
-
-            JLabel dayLabel = new JLabel(forecastDate.format(dateFormatter));
-            dayLabel.setFont(new Font(dayLabel.getFont().getName(), Font.BOLD, 14)); // Adjust font size
-            dayLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center align day label
-            dayPanel.add(dayLabel);
-
-            // Add horizontal spacing between day and separator
-            dayPanel.add(Box.createHorizontalStrut(2));
-
-            // Add the separator panel with an image
-            JPanel separatorPanel = createSeparatorPanel();
-            dayPanel.add(separatorPanel);
-
-            // Add horizontal spacing between separator and temperature
-            dayPanel.add(Box.createHorizontalStrut(2));
-
-            // Calculate the average temperature for the day, converting from Kelvin to Celsius and dividing by 8
             float sumTemp = 0;
             for (int j = i * 8; j < (i + 1) * 8 && j < weatherList.size(); j++) {
                 sumTemp += weatherList.get(j).main.temp;
             }
-            float averageTemp = (sumTemp / 8) - 273.15f;  // Convert from Kelvin to Celsius and divide by 8
+            float averageTemp = (sumTemp / 8) - 273.15f;
 
-            JLabel tempLabel = new JLabel(String.format("%.1f°C", averageTemp));
-            tempLabel.setFont(new Font("Arial", Font.BOLD, 13)); // Adjust font size
-            tempLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center align temperature label
-            dayPanel.add(tempLabel);
-
-            contentPanel.add(dayPanel); // Add the day panel to the content panel
+            dayForecasts.add(new DayForecast(forecastDate, averageTemp));
         }
 
-        // Remove the previous content panel and add the new one
-        if (getComponentCount() > 1) {
-            remove(1);
+        addForecastPanels();
+    }
+
+    private void addForecastPanels() {
+        contentPanel.removeAll();
+
+        for (DayForecast forecast : dayForecasts) {
+            JPanel dayForecastPanel = new JPanel(new BorderLayout());
+            dayForecastPanel.setOpaque(false);
+
+            JPanel dayPanel = new JPanel();
+            dayPanel.setOpaque(false);
+            JLabel dayLabel = new JLabel(forecast.date.format(dateFormatter));
+            dayLabel.setFont(new Font(dayLabel.getFont().getName(), Font.BOLD, 14));
+            dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            dayPanel.add(dayLabel);
+            dayForecastPanel.add(dayPanel, BorderLayout.NORTH);
+
+            JPanel separatorPanel = createSeparatorPanel();
+            dayForecastPanel.add(separatorPanel, BorderLayout.CENTER);
+
+            JPanel temperaturePanel = new JPanel();
+            temperaturePanel.setOpaque(false);
+            JLabel tempLabel = new JLabel(String.format("%.0f°", forecast.averageTemp));
+            tempLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            tempLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            temperaturePanel.add(tempLabel);
+            dayForecastPanel.add(temperaturePanel, BorderLayout.SOUTH);
+
+            contentPanel.add(dayForecastPanel);
         }
-        add(contentPanel, BorderLayout.CENTER);
 
         revalidate();
         repaint();
     }
 
     private JPanel createSeparatorPanel() {
-        // Load the image
         ImageIcon icon = new ImageIcon("path/to/your/image.png");
 
         JPanel separatorPanel = new JPanel() {
@@ -103,15 +118,13 @@ public class WeatherForecastPanel extends JPanel {
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                // Draw the image at the center of the panel
                 int x = (getWidth() - icon.getIconWidth()) / 2;
                 int y = (getHeight() - icon.getIconHeight()) / 2;
                 icon.paintIcon(this, g2d, x, y);
             }
         };
-        separatorPanel.setLayout(new BorderLayout());
-        separatorPanel.setPreferredSize(new Dimension(20, 20)); // Set preferred size for the separator panel
-        separatorPanel.setMaximumSize(new Dimension(20, 20)); // Set maximum size to ensure it doesn't expand
+        separatorPanel.setPreferredSize(new Dimension(40, 40));
+        separatorPanel.setMaximumSize(new Dimension(40, 40));
         return separatorPanel;
     }
 
@@ -123,5 +136,15 @@ public class WeatherForecastPanel extends JPanel {
         g2d.setColor(PANEL_COLOR);
         g2d.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), ARC_WIDTH, ARC_HEIGHT));
         g2d.dispose();
+    }
+
+    private static class DayForecast {
+        private final LocalDate date;
+        private final float averageTemp;
+
+        public DayForecast(LocalDate date, float averageTemp) {
+            this.date = date;
+            this.averageTemp = averageTemp;
+        }
     }
 }
