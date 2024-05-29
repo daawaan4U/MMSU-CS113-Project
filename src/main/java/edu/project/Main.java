@@ -35,7 +35,7 @@ public class Main {
 			socket.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
 			return true;
 		} catch (Exception e) {
-			return true;
+			return false;
 		}
 	}
 }

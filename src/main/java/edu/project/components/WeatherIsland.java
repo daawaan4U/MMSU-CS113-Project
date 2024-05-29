@@ -43,6 +43,29 @@ public class WeatherIsland extends JPanel {
 
 		add(weatherGroup);
 
+		add(Box.createVerticalStrut(8));
+
+		WeatherForecastPanel weatherForecastPanel = new WeatherForecastPanel(context);
+
+		// Maximize Width and Height
+		weatherForecastPanel.setMaximumSize(
+				new Dimension(
+						weatherForecastPanel.getMaximumSize().width,
+						weatherForecastPanel.getMaximumSize().height));
+
+		add(weatherForecastPanel);
+
+		add(Box.createVerticalStrut(8));
+
+		TimeForecast timeForecast = new TimeForecast(context);
+
+		// Maximize Width and Height
+		timeForecast.setMaximumSize(
+				new Dimension(
+						timeForecast.getMaximumSize().width,
+						timeForecast.getMaximumSize().height));
+
+		add(timeForecast);
 	}
 
 	@Override
