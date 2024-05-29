@@ -5,6 +5,9 @@ import edu.project.api.WeatherForecast5Data;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import com.formdev.flatlaf.FlatClientProperties;
+
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
