@@ -30,8 +30,12 @@ public class WeatherInfo extends JPanel {
 		JLabel timeLabel = new JLabel("8:30");
 
 		JLabel skyLabel = new JLabel("Clear Sky");
+		Font font = skyLabel.getFont();
+		skyLabel.setFont(new Font(font.getName(), font.getStyle(), 14));
 
 		JLabel feelsLikeLabel = new JLabel("<html>Feels like <b>31°C</b></html>");
+		Font feelsFont = feelsLikeLabel.getFont();
+		feelsLikeLabel.setFont(new Font(feelsFont.getName(), feelsFont.getStyle(), 14));
 
 		leftPanel.add(dateLabel);
 		leftPanel.add(timeLabel);
