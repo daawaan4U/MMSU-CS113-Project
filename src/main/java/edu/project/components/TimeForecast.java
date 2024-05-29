@@ -50,9 +50,8 @@ public class TimeForecast extends JPanel {
         titlePanel.add(titleLabel, BorderLayout.NORTH);
 
         JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-        separator.setForeground(Color.BLACK);
+        separator.setForeground(Color.GRAY);
         titlePanel.add(separator, BorderLayout.SOUTH);
-
         mainPanel.add(titlePanel, BorderLayout.NORTH);
 
         contentPanel = new JPanel();
@@ -99,8 +98,8 @@ public class TimeForecast extends JPanel {
             hourPanel.add(hourLabel);
             hourForecastPanel.add(hourPanel, BorderLayout.NORTH);
 
-            JPanel separatorPanel = createSeparatorPanel(forecast.iconId);
-            hourForecastPanel.add(separatorPanel, BorderLayout.CENTER);
+            JPanel iconPanel = createIconPanel(forecast.iconId);
+            hourForecastPanel.add(iconPanel, BorderLayout.CENTER);
 
             JPanel temperaturePanel = new JPanel();
             temperaturePanel.setOpaque(false);
@@ -117,7 +116,7 @@ public class TimeForecast extends JPanel {
         repaint();
     }
 
-    private JPanel createSeparatorPanel(String iconId) {
+    private JPanel createIconPanel(String iconId) {
         String iconUrl = "https://openweathermap.org/img/wn/" + iconId + "@2x.png";
         BufferedImage image = null;
 
@@ -130,7 +129,7 @@ public class TimeForecast extends JPanel {
 
         ImageIcon icon = new ImageIcon(image);
 
-        JPanel separatorPanel = new JPanel() {
+        JPanel iconPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -142,9 +141,10 @@ public class TimeForecast extends JPanel {
                 icon.paintIcon(this, g2d, x, y);
             }
         };
-        separatorPanel.setPreferredSize(new Dimension(40, 40));
-        separatorPanel.setMaximumSize(new Dimension(40, 40));
-        return separatorPanel;
+        iconPanel.setPreferredSize(new Dimension(40, 40));
+        iconPanel.setMaximumSize(new Dimension(40, 40));
+        iconPanel.setOpaque(false);
+        return iconPanel;
     }
 
     @Override

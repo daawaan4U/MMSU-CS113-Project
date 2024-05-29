@@ -6,8 +6,6 @@ import edu.project.api.WeatherForecast5Data;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import com.formdev.flatlaf.FlatClientProperties;
-
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
@@ -91,8 +89,8 @@ public class WeatherForecastPanel extends JPanel {
             String iconId = weatherList.get(i * 8).weather.get(0).icon;
 
             // Add the separator panel with an image
-            JPanel separatorPanel = createSeparatorPanel(iconId);
-            dayForecastPanel.add(separatorPanel, BorderLayout.CENTER);
+            JPanel iconPanel = createiconPanel(iconId);
+            dayForecastPanel.add(iconPanel, BorderLayout.CENTER);
 
             // Calculate the average temperature for the day, converting from Kelvin to
             // Celsius
@@ -119,7 +117,7 @@ public class WeatherForecastPanel extends JPanel {
         repaint();
     }
 
-    private JPanel createSeparatorPanel(String iconId) {
+    private JPanel createiconPanel(String iconId) {
         // Base URL for weather icons
         String iconUrl = "http://openweathermap.org/img/wn/" + iconId + "@2x.png";
         BufferedImage image = null;
@@ -133,7 +131,7 @@ public class WeatherForecastPanel extends JPanel {
 
         ImageIcon icon = new ImageIcon(image);
 
-        JPanel separatorPanel = new JPanel() {
+        JPanel iconPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -146,9 +144,10 @@ public class WeatherForecastPanel extends JPanel {
                 icon.paintIcon(this, g2d, x, y);
             }
         };
-        separatorPanel.setPreferredSize(new Dimension(40, 40));
-        separatorPanel.setMaximumSize(new Dimension(40, 40));
-        return separatorPanel;
+        iconPanel.setPreferredSize(new Dimension(40, 40));
+        iconPanel.setMaximumSize(new Dimension(40, 40));
+        iconPanel.setOpaque(false);
+        return iconPanel;
     }
 
     @Override
