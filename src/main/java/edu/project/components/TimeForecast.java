@@ -3,12 +3,16 @@ package edu.project.components;
 import edu.project.Context;
 import edu.project.api.WeatherForecast5Data;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,7 +34,7 @@ public class TimeForecast extends JPanel {
 
 	public TimeForecast(Context context) {
 		putClientProperty(FlatClientProperties.STYLE,
-				"border: 16,16,16,16,shade(@background,10%),,16");
+				"border: 12,12,12,12,shade(@background,10%),,16");
 		setOpaque(false);
 		setLayout(new BorderLayout());
 
@@ -71,10 +75,11 @@ public class TimeForecast extends JPanel {
 
 		for (int i = 0; i < hourCount; i++) {
 			LocalDateTime forecastTime = currentTime.plusHours(i * INTERVAL_HOURS);
+			String iconId = weatherList.get(i).weather.get(0).icon;
 			float tempKelvin = weatherList.get(i).main.temp;
 			float tempCelsius = tempKelvin - 273.15f; // Convert from Kelvin to Celsius
 
-			hourForecasts.add(new HourForecast(forecastTime, tempCelsius));
+			hourForecasts.add(new HourForecast(forecastTime, tempCelsius, iconId));
 		}
 
 		addForecastPanels();
@@ -95,8 +100,8 @@ public class TimeForecast extends JPanel {
 			hourPanel.add(hourLabel);
 			hourForecastPanel.add(hourPanel, BorderLayout.NORTH);
 
-			JPanel separatorPanel = createSeparatorPanel();
-			hourForecastPanel.add(separatorPanel, BorderLayout.CENTER);
+			JPanel iconPanel = createIconPanel(forecast.iconId);
+			hourForecastPanel.add(iconPanel, BorderLayout.CENTER);
 
 			JPanel temperaturePanel = new JPanel();
 			temperaturePanel.setOpaque(false);
@@ -113,10 +118,20 @@ public class TimeForecast extends JPanel {
 		repaint();
 	}
 
-	private JPanel createSeparatorPanel() {
-		ImageIcon icon = new ImageIcon("pic here");
+	private JPanel createIconPanel(String iconId) {
+		String iconUrl = "https://openweathermap.org/img/wn/" + iconId + "@2x.png";
+		BufferedImage image = null;
 
-		JPanel separatorPanel = new JPanel() {
+		try {
+			URL url = new URL(iconUrl);
+			image = ImageIO.read(url);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		ImageIcon icon = new ImageIcon(image);
+
+		JPanel iconPanel = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -128,9 +143,10 @@ public class TimeForecast extends JPanel {
 				icon.paintIcon(this, g2d, x, y);
 			}
 		};
-		separatorPanel.setPreferredSize(new Dimension(40, 40));
-		separatorPanel.setMaximumSize(new Dimension(40, 40));
-		return separatorPanel;
+		iconPanel.setPreferredSize(new Dimension(40, 40));
+		iconPanel.setMaximumSize(new Dimension(40, 40));
+		iconPanel.setOpaque(false);
+		return iconPanel;
 	}
 
 	@Override
@@ -146,10 +162,12 @@ public class TimeForecast extends JPanel {
 	private static class HourForecast {
 		private final LocalDateTime time;
 		private final float temp;
+		private final String iconId;
 
-		public HourForecast(LocalDateTime time, float temp) {
+		public HourForecast(LocalDateTime time, float temp, String iconId) {
 			this.time = time;
 			this.temp = temp;
+			this.iconId = iconId;
 		}
 	}
 }
