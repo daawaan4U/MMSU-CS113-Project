@@ -13,8 +13,6 @@ import com.formdev.flatlaf.FlatClientProperties;
 
 import edu.project.Context;
 
-import edu.project.components.weathercards.WeatherGroup;
-
 public class WeatherIsland extends JPanel {
 	public WeatherIsland(Context context) {
 		putClientProperty(FlatClientProperties.STYLE,
@@ -35,7 +33,7 @@ public class WeatherIsland extends JPanel {
 
 		add(Box.createVerticalStrut(8));
 
-		WeatherGroup weatherGroup = new WeatherGroup();
+		WeatherCardGroup weatherGroup = new WeatherCardGroup(context);
 
 		// Maximize Width and Minimize Height
 		weatherGroup.setMaximumSize(

@@ -1,4 +1,4 @@
-package edu.project.components.weathercards;
+package edu.project.components;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -15,22 +15,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public abstract class WeatherCard extends JPanel {
-	public WeatherCard(String title, String value, String unit) {
+public class WeatherCard extends JPanel {
+
+	private JLabel valueLabel;
+
+	public WeatherCard(String title, String unit) {
 		putClientProperty(FlatClientProperties.STYLE,
 				"border: 6,4,6,4,shade(@background,10%),,16");
 
 		setOpaque(false);
 
 		setLayout(new GridBagLayout());
-		// setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		// setMaximumSize(new Dimension(100, 150));
-		// setPreferredSize(new Dimension(100, 150));
 
 		JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
 		titleLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
-		JLabel valueLabel = new JLabel(value, SwingConstants.CENTER);
+		valueLabel = new JLabel(" ", SwingConstants.CENTER);
 		valueLabel.setFont(new Font("Arial", Font.BOLD, 32));
 
 		JLabel unitLabel = new JLabel(unit, SwingConstants.CENTER);
@@ -47,6 +47,10 @@ public abstract class WeatherCard extends JPanel {
 
 		constraints.gridy++;
 		add(unitLabel, constraints);
+	}
+
+	public void setValue(String value) {
+		valueLabel.setText(value);
 	}
 
 	@Override
