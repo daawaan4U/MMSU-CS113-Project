@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 public class WeatherGroup extends JPanel {
 	public WeatherGroup() {
+		setOpaque(false);
 		setLayout(new GridLayout(1, 4, 8, 0));
 		add(new WeatherWindCard("16"));
 		add(new WeatherHumidityCard("50"));
