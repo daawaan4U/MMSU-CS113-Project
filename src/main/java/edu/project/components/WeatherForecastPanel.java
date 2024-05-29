@@ -4,6 +4,9 @@ import edu.project.Context;
 import edu.project.api.WeatherForecast5Data;
 
 import javax.swing.*;
+
+import com.formdev.flatlaf.FlatClientProperties;
+
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.time.LocalDate;
@@ -15,17 +18,19 @@ import java.util.Locale;
 public class WeatherForecastPanel extends JPanel {
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEE")
 			.withLocale(Locale.ENGLISH);
-	private static final Color PANEL_COLOR = new Color(169, 169, 169); // Light gray color
-	private static final int ARC_WIDTH = 20;
-	private static final int ARC_HEIGHT = 20;
+	private static final Color PANEL_COLOR = new Color(224, 224, 224); // Light gray color
+	private static final int ARC_WIDTH = 16;
+	private static final int ARC_HEIGHT = 16;
 	private static final int SPACING = 20;
 
 	private final JPanel contentPanel;
 	private final List<DayForecast> dayForecasts = new ArrayList<>();
 
 	public WeatherForecastPanel(Context context) {
+		putClientProperty(FlatClientProperties.STYLE,
+				"border: 16,16,16,16,shade(@background,10%),,16");
+
 		setOpaque(false);
-		setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 19));
 		setLayout(new BorderLayout());
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
@@ -40,7 +45,8 @@ public class WeatherForecastPanel extends JPanel {
 		titlePanel.add(titleLabel, BorderLayout.NORTH);
 
 		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-		separator.setForeground(Color.BLACK);
+		separator.setForeground(new Color(0, 0, 0, 0.2f));
+		separator.setPreferredSize(new Dimension(separator.getPreferredSize().width, 2));
 		titlePanel.add(separator, BorderLayout.SOUTH);
 
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
