@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
 import java.util.HashSet;
 
 import javax.swing.event.MouseInputListener;
@@ -32,16 +33,16 @@ public class GeoMap extends JXMapViewer {
 		MouseWheelListener mouseWheelListener = new ZoomMouseWheelListenerCursor(this);
 		addMouseWheelListener(mouseWheelListener);
 
-		// Configure overlay marker
-		WaypointPainter<DefaultWaypoint> waypointPainter = new WaypointPainter<DefaultWaypoint>();
-		HashSet<DefaultWaypoint> waypoints = new HashSet<DefaultWaypoint>();
+		WaypointPainter<DefaultWaypoint> waypointPainter = new WaypointPainter<>();
+		HashSet<DefaultWaypoint> waypoints = new HashSet<>();
 		DefaultWaypoint waypoint = new DefaultWaypoint();
 		waypoints.add(waypoint);
 		waypointPainter.setWaypoints(waypoints);
+
 		try {
 			waypointPainter.setRenderer(new GeoMapMarker());
-		} catch (Exception exception) {
-			exception.printStackTrace(System.err);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		// Display overlay marker
@@ -57,7 +58,6 @@ public class GeoMap extends JXMapViewer {
 			}
 		});
 
-		// Update waypoint on location change events from application state
 		context.store.addLocationListener(position -> {
 			waypoint.setPosition(position);
 			repaint();

@@ -10,7 +10,10 @@ import javax.swing.JPanel;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import edu.project.Context;
+
 import edu.project.components.weathercards.WeatherGroup;
+
+import java.awt.BorderLayout;
 
 public class WeatherIsland extends JPanel {
 	public WeatherIsland(Context context) {
@@ -19,7 +22,10 @@ public class WeatherIsland extends JPanel {
 		setOpaque(false);
 
 		setLayout(new FlowLayout(FlowLayout.CENTER));
-
+   
+    WeatherInfo weatherInfo = new WeatherInfo(context);
+		
+    add(weatherInfo);
 		add(new WeatherGroup());
 	}
 

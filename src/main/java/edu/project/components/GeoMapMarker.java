@@ -4,9 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.WaypointRenderer;
@@ -26,19 +24,11 @@ public class GeoMapMarker implements WaypointRenderer<DefaultWaypoint> {
 		graphics = (Graphics2D) graphics.create();
 		Point2D point = map.getTileFactory().geoToPixel(waypoint.getPosition(), map.getZoom());
 
-		graphics.drawImage(
-				markerShadowImage,
-				(int) point.getX() - 12,
-				(int) point.getY() - markerShadowImage.getHeight(),
-				null);
-
-		graphics.drawImage(
-				markerIconImage,
-				(int) point.getX() - markerIconImage.getWidth() / 2,
-				(int) point.getY() - markerIconImage.getHeight(),
-				null);
+		graphics.drawImage(markerShadowImage, (int) point.getX() - 12,
+				(int) point.getY() - markerShadowImage.getHeight(), null);
+		graphics.drawImage(markerIconImage, (int) point.getX() - markerIconImage.getWidth() / 2,
+				(int) point.getY() - markerIconImage.getHeight(), null);
 
 		graphics.dispose();
 	}
-
 }
