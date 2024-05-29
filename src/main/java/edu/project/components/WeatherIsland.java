@@ -1,10 +1,12 @@
 package edu.project.components;
 
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import com.formdev.flatlaf.FlatClientProperties;
@@ -13,20 +15,36 @@ import edu.project.Context;
 
 import edu.project.components.weathercards.WeatherGroup;
 
-import java.awt.BorderLayout;
-
 public class WeatherIsland extends JPanel {
 	public WeatherIsland(Context context) {
 		putClientProperty(FlatClientProperties.STYLE,
 				"background: tint(@background,50%); border: 8,8,8,8,shade(@background,10%),,16");
 		setOpaque(false);
 
-		setLayout(new FlowLayout(FlowLayout.CENTER));
-   
-    WeatherInfo weatherInfo = new WeatherInfo(context);
-		
-    add(weatherInfo);
-		add(new WeatherGroup());
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+		WeatherInfo weatherInfo = new WeatherInfo(context);
+
+		// Maximize Width and Minimize Height
+		weatherInfo.setMaximumSize(
+				new Dimension(
+						weatherInfo.getMaximumSize().width,
+						weatherInfo.getPreferredSize().height));
+
+		add(weatherInfo);
+
+		add(Box.createVerticalStrut(8));
+
+		WeatherGroup weatherGroup = new WeatherGroup();
+
+		// Maximize Width and Minimize Height
+		weatherGroup.setMaximumSize(
+				new Dimension(
+						weatherGroup.getMaximumSize().width,
+						weatherGroup.getPreferredSize().height));
+
+		add(weatherGroup);
+
 	}
 
 	@Override

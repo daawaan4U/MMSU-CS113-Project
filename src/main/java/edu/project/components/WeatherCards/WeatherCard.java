@@ -39,7 +39,7 @@ public abstract class WeatherCard extends JPanel {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		constraints.insets = new Insets(3, 4, 3, 4);
+		constraints.insets = new Insets(3, 3, 3, 3);
 		add(titleLabel, constraints);
 
 		constraints.gridy++;
