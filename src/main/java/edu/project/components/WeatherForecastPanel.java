@@ -45,7 +45,8 @@ public class WeatherForecastPanel extends JPanel {
 		titlePanel.add(titleLabel, BorderLayout.NORTH);
 
 		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-		separator.setForeground(Color.BLACK);
+		separator.setForeground(new Color(0, 0, 0, 0.2f));
+		separator.setPreferredSize(new Dimension(separator.getPreferredSize().width, 2));
 		titlePanel.add(separator, BorderLayout.SOUTH);
 
 		mainPanel.add(titlePanel, BorderLayout.NORTH);

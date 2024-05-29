@@ -41,12 +41,13 @@ public class TimeForecast extends JPanel {
 		titlePanel.setOpaque(false);
 		titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 
-		JLabel titleLabel = new JLabel("5-Hour Forecast");
+		JLabel titleLabel = new JLabel("12-Hour Forecast");
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		titlePanel.add(titleLabel, BorderLayout.NORTH);
 
 		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
-		separator.setForeground(Color.BLACK);
+		separator.setForeground(new Color(0, 0, 0, 0.2f));
+		separator.setPreferredSize(new Dimension(separator.getPreferredSize().width, 2));
 		titlePanel.add(separator, BorderLayout.SOUTH);
 
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
