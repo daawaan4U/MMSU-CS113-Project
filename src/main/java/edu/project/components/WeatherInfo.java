@@ -28,6 +28,8 @@ public class WeatherInfo extends JPanel {
 		dateLabel.setFont(new Font(dateLabel.getFont().getName(), Font.BOLD, 18));
 
 		JLabel timeLabel = new JLabel("8:30");
+		Font timeFont = timeLabel.getFont();
+		timeLabel.setFont(new Font(timeFont.getName(), timeFont.getStyle(), 14));
 
 		JLabel skyLabel = new JLabel("Clear Sky");
 		Font font = skyLabel.getFont();
@@ -53,8 +55,7 @@ public class WeatherInfo extends JPanel {
 		tempLabel.setFont(new Font(tempLabel.getFont().getName(), Font.BOLD, 25));
 
 		JLabel highLowTempLabel = new JLabel("H: 40°C / L: 32°C");
-		highLowTempLabel.setFont(
-				new Font(highLowTempLabel.getFont().getName(), Font.BOLD, highLowTempLabel.getFont().getSize()));
+		highLowTempLabel.setFont(new Font(highLowTempLabel.getFont().getName(), Font.BOLD, 14));
 
 		rightPanel.add(locationLabel);
 		rightPanel.add(tempLabel);
