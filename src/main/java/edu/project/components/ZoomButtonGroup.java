@@ -9,11 +9,15 @@ import javax.swing.JPanel;
 
 import edu.project.Context;
 
+/**
+ * Zoom-In & Zoom-Out button group component
+ */
 public class ZoomButtonGroup extends JPanel {
 	public ZoomButtonGroup(Context context) {
 		setOpaque(false);
 		setLayout(new GridLayout(2, 1));
 
+		// Initialize zoom-in button
 		JButton zoomInButton = new JButton("+");
 		zoomInButton.setFont(new Font("Arial", Font.PLAIN, 32));
 		zoomInButton.setForeground(Color.GRAY);
@@ -22,6 +26,7 @@ public class ZoomButtonGroup extends JPanel {
 			context.store.zoomIn();
 		});
 
+		// Initialize zoom-out button
 		JButton zoomOutButton = new JButton("-");
 		zoomOutButton.setForeground(Color.GRAY);
 		zoomOutButton.setFont(new Font("Arial", Font.PLAIN, 32));
