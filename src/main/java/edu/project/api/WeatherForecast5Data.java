@@ -1,11 +1,11 @@
 
-/**
- * @seen http://api.openweathermap.org/data/2.5/forecast
- */
+
 package edu.project.api;
 
 import java.util.List;
-
+/**
+ * @seen http://api.openweathermap.org/data/2.5/forecast
+ */
 public class WeatherForecast5Data {
 	public List<WeatherList> list;
 
