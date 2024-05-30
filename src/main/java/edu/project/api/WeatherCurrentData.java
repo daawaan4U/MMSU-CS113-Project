@@ -1,10 +1,10 @@
 
-
 package edu.project.api;
 
 import com.google.gson.annotations.SerializedName;
+
 /**
- *  @seen http://api.openweathermap.org/data/2.5/weather
+ * @seen http://api.openweathermap.org/data/2.5/weather
  */
 public class WeatherCurrentData {
 	public String name;
