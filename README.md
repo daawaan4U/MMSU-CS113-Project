@@ -8,7 +8,7 @@ A desktop weather-forecast app made with Java Swing.
 
 ## Designs
 
-The original figma wireframes (including earlier revisions) designed by **@Cesshi** & **@geilala** can be found at:
+The original wireframes (including earlier revisions) designed by **@Cesshi** & **@geilala** can be found at:
 
 - https://www.figma.com/design/Ub9InMhVFShxhxw5wkYUei/weather-dashboard
 - https://www.canva.com/design/DAGEpcDlNYc/aUzd6bg1FgwD013qJSdBmA/
