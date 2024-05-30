@@ -30,26 +30,36 @@ import javax.swing.SwingConstants;
 
 public class TimeForecast extends JPanel {
 
+	// Formatter for displaying the hour in a 12-hour format with AM/PM
 	private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h a")
 			.withLocale(Locale.ENGLISH); // Abbreviate the hour
 	private static final Color PANEL_COLOR = new Color(224, 224, 224); // Light gray color
 	private static final int ARC_WIDTH = 20; // Adjust the arc width for rounded corners
 	private static final int ARC_HEIGHT = 20; // Adjust the arc height for rounded corners
 	private static final int SPACING = 10; // Horizontal spacing between each hour panel
-	private static final int INTERVAL_HOURS = 3;
+	private static final int INTERVAL_HOURS = 3; // Interval between forecast data points
 
 	private final JPanel contentPanel;
 	private final List<HourForecast> hourForecasts = new ArrayList<>();
 
+	/**
+	 * Constructor for TimeForecast panel.
+	 *
+	 * @param context
+	 *            The application context.
+	 */
 	public TimeForecast(Context context) {
+		// Set the style properties for the panel
 		putClientProperty(FlatClientProperties.STYLE,
 				"border: 12,12,12,12,shade(@background,10%),,16");
 		setOpaque(false);
 		setLayout(new BorderLayout());
 
+		// Main panel containing the forecast
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setOpaque(false);
 
+		// Title panel
 		JPanel titlePanel = new JPanel(new BorderLayout());
 		titlePanel.setOpaque(false);
 		titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
@@ -65,6 +75,7 @@ public class TimeForecast extends JPanel {
 
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 
+		// Content panel to hold the forecast panels
 		contentPanel = new JPanel();
 		contentPanel.setOpaque(false);
 		contentPanel.setLayout(new GridLayout(1, 5, SPACING, 0));
@@ -72,9 +83,16 @@ public class TimeForecast extends JPanel {
 
 		add(mainPanel, BorderLayout.CENTER);
 
+		// Add listener to update the forecast data when new data is available
 		context.store.addWeatherForecast5DataListener(this::updateForecastData);
 	}
 
+	/**
+	 * Update the forecast data based on the provided weather data.
+	 *
+	 * @param forecastData
+	 *            The new weather forecast data.
+	 */
 	private void updateForecastData(WeatherForecast5Data forecastData) {
 		hourForecasts.clear();
 
@@ -94,6 +112,9 @@ public class TimeForecast extends JPanel {
 		addForecastPanels();
 	}
 
+	/**
+	 * Add forecast panels to the content panel.
+	 */
 	private void addForecastPanels() {
 		contentPanel.removeAll();
 
@@ -101,6 +122,7 @@ public class TimeForecast extends JPanel {
 			JPanel hourForecastPanel = new JPanel(new BorderLayout());
 			hourForecastPanel.setOpaque(false);
 
+			// Hour label panel
 			JPanel hourPanel = new JPanel();
 			hourPanel.setOpaque(false);
 			JLabel hourLabel = new JLabel(forecast.time.format(timeFormatter));
@@ -109,9 +131,11 @@ public class TimeForecast extends JPanel {
 			hourPanel.add(hourLabel);
 			hourForecastPanel.add(hourPanel, BorderLayout.NORTH);
 
+			// Weather icon panel
 			JPanel iconPanel = createIconPanel(forecast.iconId);
 			hourForecastPanel.add(iconPanel, BorderLayout.CENTER);
 
+			// Temperature label panel
 			JPanel temperaturePanel = new JPanel();
 			temperaturePanel.setOpaque(false);
 			JLabel tempLabel = new JLabel(String.format("%.0f°", forecast.temp));
@@ -127,6 +151,13 @@ public class TimeForecast extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Create an icon panel for the given weather icon ID.
+	 *
+	 * @param iconId
+	 *            The ID of the weather icon.
+	 * @return A JPanel containing the weather icon.
+	 */
 	private JPanel createIconPanel(String iconId) {
 		BufferedImage image = WeatherIcons.getIcon(iconId);
 		ImageIcon icon = new ImageIcon(image);
@@ -159,11 +190,24 @@ public class TimeForecast extends JPanel {
 		g2d.dispose();
 	}
 
+	/**
+	 * A class representing the forecast for a specific hour.
+	 */
 	private static class HourForecast {
 		private final LocalDateTime time;
 		private final float temp;
 		private final String iconId;
 
+		/**
+		 * Constructor for HourForecast.
+		 *
+		 * @param time
+		 *            The time of the forecast.
+		 * @param temp
+		 *            The temperature in Celsius.
+		 * @param iconId
+		 *            The ID of the weather icon.
+		 */
 		public HourForecast(LocalDateTime time, float temp, String iconId) {
 			this.time = time;
 			this.temp = temp;
