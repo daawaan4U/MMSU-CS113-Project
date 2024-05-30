@@ -13,31 +13,43 @@ import javax.swing.WindowConstants;
 import edu.project.Config;
 import edu.project.Context;
 
+/**
+ * Root Window for the application
+ */
 public class App extends JFrame {
 	public App(Context context) {
 		setTitle("Weather Forecast App");
+
+		// Set content-pane minimum size & preferred size instead of overall window size
+		// (which includes window header)
 		getContentPane().setMinimumSize(new Dimension(Config.WINDOW_INIT_WIDTH, Config.WINDOW_INIT_HEIGHT));
 		getContentPane().setPreferredSize(new Dimension(Config.WINDOW_INIT_WIDTH, Config.WINDOW_INIT_HEIGHT));
 		pack();
 		setMinimumSize(getSize());
 		setPreferredSize(getSize());
 
+		// Exit application on window close click
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+		// Use layered layout to allow overlaying components (Map on the background,
+		// Controls as overlay)
 		JLayeredPane layers = new JLayeredPane();
 		add(layers);
 
+		// Initialize map
 		GeoMap geomap = new GeoMap(context);
 		layers.add(geomap);
 		layers.setLayer(geomap, JLayeredPane.DEFAULT_LAYER);
 		layers.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
+				// Resize map to fill all space on window resize
 				super.componentResized(e);
 				geomap.setBounds(0, 0, layers.getWidth(), layers.getHeight());
 			}
 		});
 
+		// Initialize weather island
 		WeatherIsland weatherIsland = new WeatherIsland(context);
 
 		// Disable click-throughs to the overlapped map
@@ -48,6 +60,7 @@ public class App extends JFrame {
 			}
 		});
 
+		// Set weather island size
 		layers.add(weatherIsland);
 		layers.setLayer(weatherIsland, JLayeredPane.MODAL_LAYER);
 		weatherIsland.setBounds(
@@ -56,6 +69,7 @@ public class App extends JFrame {
 				(int) (Config.WINDOW_INIT_WIDTH * 0.4),
 				Config.WINDOW_INIT_HEIGHT - Config.WINDOW_INIT_PADDING * 2);
 
+		// Initialize zoom buttons
 		ZoomButtonGroup zoomButtonGroup = new ZoomButtonGroup(context);
 
 		// Disable click-throughts to the overlapped map
@@ -66,6 +80,7 @@ public class App extends JFrame {
 			}
 		});
 
+		// Set zoom button group size
 		layers.add(zoomButtonGroup);
 		layers.setLayer(zoomButtonGroup, JLayeredPane.MODAL_LAYER + 1);
 		layers.addComponentListener(new ComponentAdapter() {

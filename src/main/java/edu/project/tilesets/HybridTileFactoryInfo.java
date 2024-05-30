@@ -2,8 +2,12 @@ package edu.project.tilesets;
 
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
+/**
+ * Tile Factory metadata for Google Hybrid Maps Tileset
+ */
 public class HybridTileFactoryInfo extends TileFactoryInfo {
 
+	// Maximum zoom available for the tileset
 	private static final int MAX_ZOOM = 19;
 
 	public HybridTileFactoryInfo() {
@@ -23,6 +27,9 @@ public class HybridTileFactoryInfo extends TileFactoryInfo {
 
 	@Override
 	public String getTileUrl(int x, int y, int zoom) {
+		// Invert zoom when fetching tile since JXMapViewer uses an inverted zoom range
+		// (0 - max zoom in) and slippy tile APIs use the standard zoom range (0 - max
+		// zoom out)
 		return super.getTileUrl(x, y, MAX_ZOOM - zoom);
 	}
 }
