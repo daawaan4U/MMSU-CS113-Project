@@ -13,10 +13,13 @@ import com.formdev.flatlaf.FlatClientProperties;
 
 import edu.project.Context;
 
+/**
+ * Container for displaying weather data related UI
+ */
 public class WeatherIsland extends JPanel {
 	public WeatherIsland(Context context) {
-		putClientProperty(FlatClientProperties.STYLE,
-				"background: tint(@background,50%); border: 8,8,8,8,shade(@background,10%),,16");
+		// Add FlatLaf rounded borders
+		putClientProperty(FlatClientProperties.STYLE, "border: 8,8,8,8,shade(@background,10%),,16");
 		setOpaque(false);
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -31,6 +34,7 @@ public class WeatherIsland extends JPanel {
 
 		add(weatherInfo);
 
+		// Add 8 units vertical gap
 		add(Box.createVerticalStrut(8));
 
 		WeatherCardGroup weatherGroup = new WeatherCardGroup(context);
@@ -43,6 +47,7 @@ public class WeatherIsland extends JPanel {
 
 		add(weatherGroup);
 
+		// Add 8 units vertical gap
 		add(Box.createVerticalStrut(8));
 
 		WeatherForecastPanel weatherForecastPanel = new WeatherForecastPanel(context);
@@ -55,6 +60,7 @@ public class WeatherIsland extends JPanel {
 
 		add(weatherForecastPanel);
 
+		// Add 8 units vertical gap
 		add(Box.createVerticalStrut(8));
 
 		TimeForecast timeForecast = new TimeForecast(context);
@@ -70,6 +76,7 @@ public class WeatherIsland extends JPanel {
 
 	@Override
 	protected void paintComponent(Graphics graphics) {
+		// Paint a rounded-rect for the background
 		Graphics2D graphics2d = (Graphics2D) graphics;
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		graphics2d.setColor(getBackground());
