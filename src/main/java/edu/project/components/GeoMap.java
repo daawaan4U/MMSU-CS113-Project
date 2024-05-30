@@ -19,8 +19,12 @@ import edu.project.Config;
 import edu.project.Context;
 import edu.project.tilesets.HybridTileFactory;
 
+/**
+ * Custom map component using the JXMapViewer library
+ */
 public class GeoMap extends JXMapViewer {
 	public GeoMap(Context context) {
+		// Use Google Hybrid Map tile factory
 		setTileFactory(new HybridTileFactory());
 
 		// Add Pan Interaction
@@ -32,6 +36,8 @@ public class GeoMap extends JXMapViewer {
 		addMouseWheelListener(new ZoomMouseWheelListenerCursor(this) {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent evt) {
+				// If wheel rotation indicates a zoom-out, check if can zoom-out before
+				// proceeding
 				if (evt.getWheelRotation() > 0 && !canZoomOut())
 					return;
 				super.mouseWheelMoved(evt);
@@ -57,6 +63,7 @@ public class GeoMap extends JXMapViewer {
 			}
 		});
 
+		// Initialize waypoint, the marker on the map
 		WaypointPainter<DefaultWaypoint> waypointPainter = new WaypointPainter<>();
 		HashSet<DefaultWaypoint> waypoints = new HashSet<>();
 		DefaultWaypoint waypoint = new DefaultWaypoint();
@@ -77,19 +84,31 @@ public class GeoMap extends JXMapViewer {
 			}
 		});
 
+		// Change marker location on location updates
 		context.store.addLocationListener(position -> {
 			waypoint.setPosition(position);
 			repaint();
 		});
 
+		// Initialize map center & zoom from config
 		setCenterPosition(context.store.getLocation());
 		setZoom(Config.MAP_INIT_ZOOM);
 	}
 
+	/**
+	 * Checks if user can still zoom out. This method exists for preventing the user
+	 * from zooming out too much, causing the map to show empty spaces outside world
+	 * tileset borders
+	 */
 	private boolean canZoomOut() {
+		// Invert zoom when fetching tile since JXMapViewer uses an inverted zoom range
+		// (0 - max zoom in) and slippy tile APIs use the standard zoom range (0 - max
+		// zoom out)
 		int zoom = getZoom();
 		int maxZoom = getTileFactory().getInfo().getMaximumZoomLevel();
 		int invertedZoom = maxZoom - zoom;
+
+		// Set maximum zoom-out to zoom-level 4
 		return (invertedZoom >= 4);
 	}
 }
