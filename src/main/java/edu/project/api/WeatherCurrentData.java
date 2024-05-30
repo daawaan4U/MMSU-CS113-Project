@@ -1,3 +1,7 @@
+/**
+ *  @seen http://api.openweathermap.org/data/2.5/weather
+ */
+
 package edu.project.api;
 
 import com.google.gson.annotations.SerializedName;

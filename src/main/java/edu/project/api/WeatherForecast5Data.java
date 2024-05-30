@@ -1,3 +1,7 @@
+
+/**
+ * @seen http://api.openweathermap.org/data/2.5/forecast
+ */
 package edu.project.api;
 
 import java.util.List;
