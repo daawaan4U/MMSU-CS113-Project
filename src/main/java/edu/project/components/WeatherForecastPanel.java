@@ -27,24 +27,39 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * The WeatherForecastPanel class displays a 5-day weather forecast in a
+ * graphical user interface.
+ */
 public class WeatherForecastPanel extends JPanel {
+
+	// Formatter for displaying the day of the week
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEE")
 			.withLocale(Locale.ENGLISH);
-	private static final Color PANEL_COLOR = new Color(224, 224, 224);
-	private static final int ARC_WIDTH = 16;
-	private static final int ARC_HEIGHT = 16;
-	private static final int SPACING = 10;
+	private static final Color PANEL_COLOR = new Color(224, 224, 224); // Light gray color
+	private static final int ARC_WIDTH = 16; // Arc width for rounded corners
+	private static final int ARC_HEIGHT = 16; // Arc height for rounded corners
+	private static final int SPACING = 10; // Horizontal spacing between each day's forecast panel
 
+	/**
+	 * Constructor for WeatherForecastPanel.
+	 *
+	 * @param context
+	 *            The application context.
+	 */
 	public WeatherForecastPanel(Context context) {
+		// Set the style properties for the panel
 		putClientProperty(FlatClientProperties.STYLE,
 				"border: 12,12,12,12,shade(@background,10%),,16");
 
 		setOpaque(false);
 		setLayout(new BorderLayout());
 
+		// Main panel containing the forecast
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setOpaque(false);
 
+		// Title panel
 		JPanel titlePanel = new JPanel(new BorderLayout());
 		titlePanel.setOpaque(false);
 		titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
@@ -53,6 +68,7 @@ public class WeatherForecastPanel extends JPanel {
 		titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		titlePanel.add(titleLabel, BorderLayout.NORTH);
 
+		// Separator line under the title
 		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
 		separator.setForeground(new Color(0, 0, 0, 0.2f));
 		separator.setPreferredSize(new Dimension(separator.getPreferredSize().width, 2));
@@ -60,6 +76,7 @@ public class WeatherForecastPanel extends JPanel {
 
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 
+		// Content panel to hold the forecast panels
 		JPanel contentPanel = new JPanel();
 		contentPanel.setOpaque(false);
 		contentPanel.setLayout(new GridLayout(1, 5, SPACING, 0));
@@ -67,15 +84,26 @@ public class WeatherForecastPanel extends JPanel {
 
 		add(mainPanel, BorderLayout.CENTER);
 
+		// Add listener to update the forecast data when new data is available
 		context.store.addWeatherForecast5DataListener(this::updateForecast);
 	}
 
+	/**
+	 * Update the forecast data based on the provided weather data.
+	 *
+	 * @param forecastData
+	 *            The new weather forecast data.
+	 */
 	private void updateForecast(WeatherForecast5Data forecastData) {
+		// Get the content panel to update
 		JPanel contentPanel = (JPanel) ((JPanel) getComponent(0)).getComponent(1);
 		contentPanel.removeAll();
 
+		// List of weather data for the forecast
 		List<WeatherForecast5Data.WeatherList> weatherList = forecastData.list;
 
+		// Limit the forecast to 5 days, with each day having 8 data points (3-hour
+		// intervals)
 		int dayCount = Math.min(5, weatherList.size() / 8);
 		LocalDate currentDate = LocalDate.now();
 
@@ -99,8 +127,8 @@ public class WeatherForecastPanel extends JPanel {
 			// relevant icon)
 			String iconId = weatherList.get(i * 8).weather.get(0).icon;
 
-			// Add the separator panel with an image
-			JPanel iconPanel = createiconPanel(iconId);
+			// Add the icon panel with the weather icon
+			JPanel iconPanel = createIconPanel(iconId);
 			dayForecastPanel.add(iconPanel, BorderLayout.CENTER);
 
 			// Calculate the average temperature for the day, converting from Kelvin to
@@ -128,7 +156,14 @@ public class WeatherForecastPanel extends JPanel {
 		repaint();
 	}
 
-	private JPanel createiconPanel(String iconId) {
+	/**
+	 * Create an icon panel for the given weather icon ID.
+	 *
+	 * @param iconId
+	 *            The ID of the weather icon.
+	 * @return A JPanel containing the weather icon.
+	 */
+	private JPanel createIconPanel(String iconId) {
 		BufferedImage image = WeatherIcons.getIcon(iconId);
 		ImageIcon icon = new ImageIcon(image);
 
