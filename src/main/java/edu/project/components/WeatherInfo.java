@@ -18,12 +18,17 @@ public class WeatherInfo extends JPanel {
 	public WeatherInfo(Context context) {
 		setLayout(new BorderLayout());
 		setOpaque(false);
+
+		// Set an empty border around the panel with 8 pixels padding on each side
 		setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
+		// Create the left panel for date, time, sky condition, and feels like
+		// temperature
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		leftPanel.setOpaque(false);
 
+		// create and customize labels
 		JLabel dateLabel = new JLabel("Saturday, May 4");
 		dateLabel.setFont(new Font(dateLabel.getFont().getName(), Font.BOLD, 18));
 
@@ -44,10 +49,12 @@ public class WeatherInfo extends JPanel {
 		leftPanel.add(skyLabel);
 		leftPanel.add(feelsLikeLabel);
 
+		// Create the right panel for location, temperature, and high/low temperatures
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		rightPanel.setOpaque(false);
 
+		// create and customize labels
 		JLabel locationLabel = new JLabel("Quiling Sur");
 		locationLabel.setFont(new Font(locationLabel.getFont().getName(), Font.BOLD, 18));
 
@@ -64,6 +71,7 @@ public class WeatherInfo extends JPanel {
 		add(leftPanel, BorderLayout.WEST);
 		add(rightPanel, BorderLayout.EAST);
 
+		// Add a listener for current weather data updates
 		context.store.addWeatherCurrentDataListener(data -> {
 			// leftpanel
 			SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d"); // Example format: "Saturday, May 4"
@@ -83,6 +91,7 @@ public class WeatherInfo extends JPanel {
 
 		});
 
+		// Add a listener for 5-day weather forecast data updates
 		context.store.addWeatherForecast5DataListener(data -> {
 			// Get the weather description
 			String description = data.list.get(0).weather.get(0).description;
