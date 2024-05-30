@@ -2,13 +2,23 @@
 
 A desktop weather-forecast app made with Java Swing.
 
-![Weather Forecast App](./assets/weatherforecast-animation.gif)
+<div align="center">
+	<img src="./assets/weatherforecast-animation.gif" alt="Weather Forecast App">
+</div>
 
 ## Designs
 
-The original figma wireframes (including earlier revisions) designed by **@Cesshi** & **@geilala** can be found at: https://www.figma.com/design/Ub9InMhVFShxhxw5wkYUei/weather-dashboard?node-id=0-1&t=F9pqqa66VvRrUBnx-0
+The original wireframes (including earlier revisions) designed by **@Cesshi** & **@geilala** can be found at:
 
-![Figma Wireframes](./assets/figma-wireframes.png)
+- https://www.figma.com/design/Ub9InMhVFShxhxw5wkYUei/weather-dashboard
+- https://www.canva.com/design/DAGEpcDlNYc/aUzd6bg1FgwD013qJSdBmA/
+
+<div align="center">
+	<img src="./assets/figma-wireframes.jpg" alt="Figma Wireframes">
+</div>
+<div align="center">
+	<img src="./assets/canva-wireframes.jpg" alt="Canva Wireframes">
+</div>
 
 ## Development
 
